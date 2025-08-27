@@ -1,0 +1,12 @@
+.dropdownDefaultButton{
+    background-color: #B5A5C9 !important;  
+  }
+  .dropDownSelected{
+      border: 1px solid #B5A5C9;
+      border-radius: 10px;
+  }
+  @media (max-width : 640px) {
+    .dropdown_editecontent{
+        padding-left: 2rem;
+    }
+  }
