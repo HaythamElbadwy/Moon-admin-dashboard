@@ -6,8 +6,8 @@ import { toast } from 'react-toastify';
 
 export default function Activation() {
   const [price, setPrice] = useState("");
-  const [puplishKey, setpuplishKey] = useState("");
-  const [secretKey, setsecretKey] = useState("");
+  const [puplishKey, setPuplishKey] = useState("");
+  const [secretKey, setSecretKey] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingPaymentKey, setIsLoadingPaymentKeys] = useState(false);
 
@@ -26,11 +26,7 @@ export default function Activation() {
 
 
       if (response.ok) {
-        toast.success(data.message, {
-          theme: "dark"
-        });
         setPrice(data.subscriptionPrice.price);
-        console.log(data);
       } else {
         switch (response.status) {
           case 500:
@@ -116,7 +112,8 @@ export default function Activation() {
     }
   };
 
-  function handleAdd() {
+  function handleAdd(e) {
+     e.preventDefault()
     if (price == '') {
       toast("All faildes is Rquired!")
     } else {
@@ -128,7 +125,7 @@ export default function Activation() {
 
   /////////////////////// START GET PRICE////////////////////
   const getPaymentKeys = async () => {
-
+   
     try {
       const response = await fetch(`https://moon-smy9.onrender.com/apiKey/get`, {
         method: 'GET',
@@ -142,11 +139,8 @@ export default function Activation() {
 
 
       if (response.ok) {
-        toast.success(data.message, {
-          theme: "dark"
-        });
-        setPrice(data.subscriptionPrice.price);
-        console.log(data);
+        setPuplishKey(data.keys.publishableKey);
+        setSecretKey(data.keys.secretKey)
       } else {
         switch (response.status) {
           case 500:
@@ -159,8 +153,8 @@ export default function Activation() {
             });
             break;
           default:
-            toast('An error occurred. Please try again.' ,{
-              theme : 'dark'
+            toast('An error occurred. Please try again.', {
+              theme: 'dark'
             });
         }
       }
@@ -234,7 +228,8 @@ export default function Activation() {
     }
   };
 
-  function handleAddPaymentKeys() {
+  function handleAddPaymentKeys(e) {
+    e.preventDefault()
     if (puplishKey == '' || secretKey == '') {
       toast("All faildes is Rquired!")
     } else {
@@ -268,16 +263,16 @@ export default function Activation() {
         <h1 className='flex text-2xl mb-3 text-gray-800'>Payment Keys</h1>
         <div className="mb-5 mr-auto">
           <label htmlFor="puplishKey" className="flex mb-4 text-sm font-medium text-gray-900 dark:text-white">Puplish Key</label>
-          <input type="text" id="puplishKey" onChange={(e) => setpuplishKey(e.target.value)} value={puplishKey} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+          <input type="text" id="puplishKey" onChange={(e) => setPuplishKey(e.target.value)} value={puplishKey} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
         </div>
         <div className="mb-5 mr-auto">
           <label htmlFor="secretKey" className="flex mb-4 text-sm font-medium text-gray-900 dark:text-white">Secret Key</label>
-          <input type="text" id="secretKey" onChange={(e) => setsecretKey(e.target.value)} value={secretKey} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+          <input type="text" id="secretKey" onChange={(e) => setSecretKey(e.target.value)} value={secretKey} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
         </div>
 
         <div className='flex'>
           <button type="submit"
-          onClick={handleAddPaymentKeys}
+            onClick={handleAddPaymentKeys}
             className="ml-auto text-white bg-[#B5A5C9]  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md w-28  px-5 py-2.5 text-center">
             {isLoadingPaymentKey ?
               <i className='fas fa-spinner fa-spin text-2xl'></i>
